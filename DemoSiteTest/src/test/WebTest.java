@@ -1,5 +1,7 @@
 package test;
 
+import static org.junit.Assert.*;
+
 import org.junit.After;
 import org.junit.Test;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -23,18 +25,21 @@ public class WebTest {
 	public void Test(){
 		System.out.println("Test");
 		webDriver.navigate().to("http://www.TheDemoSite.co.uk");	
-		webDriver.findElement(By.cssSelector("body > div > center > table > tbody > tr:nth-child(2) > td > div > center > table > tbody > tr > td:nth-child(2) > p > small > a:nth-child(6)")).click();	
-		webDriver.findElement(By.cssSelector("body > table > tbody > tr > td.auto-style1 > form > div > center > table > tbody > tr > td:nth-child(1) > div > center > table > tbody > tr:nth-child(1) > td:nth-child(2) > p > input")).sendKeys("Test");
-		webDriver.findElement(By.xpath("/html/body/table/tbody/tr/td[1]/form/div/center/table/tbody/tr/td[1]/div/center/table/tbody/tr[2]/td[2]/p/input")).sendKeys("Password");
-		webDriver.findElement(By.xpath("/html/body/table/tbody/tr/td[1]/form/div/center/table/tbody/tr/td[1]/div/center/table/tbody/tr[3]/td[2]/p/input")).click();
-		webDriver.findElement(By.xpath("/html/body/div/center/table/tbody/tr[2]/td/div/center/table/tbody/tr/td[2]/p/small/a[4]")).click();
-		webDriver.findElement(By.xpath("/html/body/table/tbody/tr/td[1]/form/div/center/table/tbody/tr/td[1]/table/tbody/tr[1]/td[2]/p/input")).sendKeys("Test");
-		webDriver.findElement(By.xpath("/html/body/table/tbody/tr/td[1]/form/div/center/table/tbody/tr/td[1]/table/tbody/tr[2]/td[2]/p/input")).sendKeys("Password");
-		webDriver.findElement(By.xpath("/html/body/table/tbody/tr/td[1]/form/div/center/table/tbody/tr/td[1]/table/tbody/tr[3]/td[2]/p/input")).click();
+		webDriver.findElement(By.xpath("//a[contains(@href,'addauser.php')]")).click();			 				// Go to Create Login Page
+		webDriver.findElement(By.xpath("//input[contains(@name, 'username')]")).sendKeys("Test");				//Find Username field. Send a Username
+		webDriver.findElement(By.xpath("//input[contains(@name, 'password')]")).sendKeys("Password");			//Find Password field. Send a Password
+		webDriver.findElement(By.xpath("//input[contains(@value, 'save')]")).click();							//Click save button
+		webDriver.findElement(By.xpath("//a[contains(@href,'login.php')]")).click();							//Go to Login Page
+		webDriver.findElement(By.xpath("//input[contains(@name, 'username')]")).sendKeys("Test");				//Find Username field. Send a Username
+		webDriver.findElement(By.xpath("//input[contains(@name, 'password')]")).sendKeys("Password");			//Find Password field. Send a Password
+		webDriver.findElement(By.xpath("//input[contains(@value, 'Test Login')]")).click();
+		assertEquals("**Successful Login**", webDriver.findElement(By.xpath("/html/body/table/tbody/tr/td[1]/big/blockquote/blockquote/font/center/b")).getText());				 //Check login was successful
+		
 	}
 	
 	@After
 	public void After(){
+		//webDriver.quit();
 		System.out.println("After");
 	}
 	
