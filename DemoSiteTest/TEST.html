@@ -41,7 +41,7 @@
 		<!-- nav-right -->
 		<ul id='nav-mobile' class='right hide-on-med-and-down nav-right'>
 			<a href='#!'>
-				<span class='label suite-start-time'>Aug 9, 2017 1:56:50 PM</span>
+				<span class='label suite-start-time'>Aug 9, 2017 2:37:14 PM</span>
 			</a>
 			<a href='#!'>
 				<span class='label'>v3.0.3</span>
@@ -62,7 +62,8 @@
 					<i class='material-icons'>warning</i> Status
 				</a>
 				<ul id='tests-toggle' class='dropdown-content'>
-										<li class='divider'></li>
+											<li status='pass'><a href='#!'>Pass <i class='material-icons green-text'>check_circle</i></a></li>
+					<li class='divider'></li>
 					<li status='clear' clear='true'><a href='#!'>Clear Filters <i class='material-icons'>clear</i></a></li>
 				</ul>
 			</div>
@@ -127,7 +128,7 @@
 					<canvas id='child-analysis' width='100' height='80'></canvas>
 				</div>
 				<div class='block text-small'>
-					<span><span class='strong'>0</span> step(s) passed</span>
+					<span><span class='strong'>1</span> step(s) passed</span>
 				</div>
 				<div class='block text-small'>
 					<span class='strong'>0</span> step(s) failed, <span class='strong'>0</span> others
@@ -148,15 +149,33 @@
 				<li class='test displayed active  pass' status='pass' bdd='false' test-id='1'>
 					<div class='test-heading'>
 						<span class='test-name'>TestName</span>
-						<span class='test-time'>Aug 9, 2017 1:56:50 PM</span>
+						<span class='test-time'>Aug 9, 2017 2:37:14 PM</span>
 						<span class='test-status right pass'>pass</span>
 					</div>
 					<div class='test-content hide'>
 <div class='test-time-info'>
-	<span class='label start-time'>Aug 9, 2017 1:56:50 PM</span>
-	<span class='label end-time'>Aug 9, 2017 1:56:50 PM</span>
-	<span class='label time-taken grey lighten-1 white-text'>0h 0m 0s+0ms</span>
+	<span class='label start-time'>Aug 9, 2017 2:37:14 PM</span>
+	<span class='label end-time'>Aug 9, 2017 2:37:19 PM</span>
+	<span class='label time-taken grey lighten-1 white-text'>0h 0m 4s+877ms</span>
 </div>
+	<div class='test-steps'>
+		<table class='bordered table-results'>
+			<thead>
+				<tr>
+					<th>Status</th>
+					<th>Timestamp</th>
+					<th>Details</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr class='log' status='pass'>
+					<td class='status pass' title='pass' alt='pass'><i class='material-icons'>check_circle</i></td>
+					<td class='timestamp'>2:37:19 PM</td>
+					<td class='step-details'>Test Passed for Username: User1</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
 							<ul class='screenshots'>
 								<li><img data-featherlight='C:\Users\Administrator\workspace\DemoSiteTest\photo.jpg' width='10%' src='' data-src='C:\Users\Administrator\workspace\DemoSiteTest\photo.jpg'></li>
 							</ul>
@@ -200,25 +219,25 @@
 			<div class='col s2'>
 				<div class='card-panel r'>
 					Steps
-					<div class='panel-lead'>0</div>
+					<div class='panel-lead'>1</div>
 				</div>
 			</div>
 			<div class='col s2'>
 				<div class='card-panel r'>
 					Start
-					<div class='panel-lead'>Aug 9, 2017 1:56:50 PM</div>
+					<div class='panel-lead'>Aug 9, 2017 2:37:14 PM</div>
 				</div>
 			</div>
 			<div class='col s2'>
 				<div class='card-panel r'>
 			 		End
-			 		<div class='panel-lead'>Aug 9, 2017 1:56:55 PM</div>
+			 		<div class='panel-lead'>Aug 9, 2017 2:37:19 PM</div>
 				</div>
 			</div>
 			<div class='col s2'>
 				<div class='card-panel r'>
 					Time Taken
-					<div class='panel-lead'>5,308ms</div>
+					<div class='panel-lead'>5,448ms</div>
 				</div>
 			</div>
 		</div>
@@ -238,7 +257,7 @@
 				skipParent: 0,
 				exceptionsParent: 0,
 				
-				passChild: 0,
+				passChild: 1,
 				failChild: 0,
 				fatalChild: 0,
 				errorChild: 0,

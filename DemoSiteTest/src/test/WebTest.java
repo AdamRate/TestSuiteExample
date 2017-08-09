@@ -86,6 +86,12 @@ public class WebTest {
 		loginPage.submitUserDetails();
 		assertEquals("Login Successful", "**Successful Login**", loginPage.getSuccessText());
 		
+		if (loginPage.getSuccessText().equals("**Successful Login**")){
+		test.log(Status.PASS, "Test Passed for Username: "+ row.get(2));
+		}
+		else test.log(Status.FAIL,"Test failed for Username: " + row.get(2));
+	
+		
 		
 		try {
 			test.addScreenCaptureFromPath(ScreenShot.take(webDriver, "photo"));
