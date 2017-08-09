@@ -14,6 +14,7 @@ import org.junit.BeforeClass;
 import org.junit.AfterClass;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Wait;
@@ -32,9 +33,11 @@ public class WebTest {
 	private SignUpPage signUpPage;
 	private LoginPage loginPage;
 	private NavBar navBar;
+	private DraggingPage dragTest;
 	private static ExtentReports report;
 	private ExtentTest test;
 	private String reportFilePath = "TEST.html";
+	private WebElement successText;
 
 	@BeforeClass
 	public static void BeforeClass() {
@@ -57,11 +60,30 @@ public class WebTest {
 		signUpPage = PageFactory.initElements(webDriver, SignUpPage.class);
 		loginPage = PageFactory.initElements(webDriver, LoginPage.class);
 		navBar = PageFactory.initElements(webDriver, NavBar.class);
+		dragTest = PageFactory.initElements(webDriver, DraggingPage.class);
 
 	}
 
 	@Test
+	public void DragTest() {
+		webDriver.navigate().to("http://demoqa.com/droppable/");
+		Actions builder = new Actions(webDriver);
+		WebElement element = dragTest.getBoxToDrag();
+		WebElement element2 = dragTest.getDragTarget();
+		builder.moveToElement(element).clickAndHold().moveToElement(element2).release().perform();
+
+		successText = webDriver.findElement(By.xpath("//*[@id='droppableview']/p"));
+		assertEquals("Dropped!", successText.getText());
+		
+		if (successText.getText().equals("Dropped!")) {
+			test.log(Status.PASS, "Box Dropped! ");
+		} else
+			test.log(Status.FAIL, "Box Not Dropped!");
+	}
+
+	@Test
 	public void LoginTest() {
+		System.out.println("Test");
 		String User;
 		String pass;
 		SpreadSheetReader ssr = new SpreadSheetReader("Book1.xlsx");
@@ -69,13 +91,11 @@ public class WebTest {
 		System.out.println("--Read Input: ");
 		for (String cell : row) {
 			System.out.println(cell);
-
 		}
+
 		System.out.println("--End of Read input--");
 
-		System.out.println("Test");
-
-		webDriver.navigate().to("http://www.TheDemoSite.co.uk");
+		webDriver.navigate().to("http://www.thedemosite.co.uk");
 		navBar.goToAddUserPage();
 		signUpPage.enterUsername(row.get(2));
 		signUpPage.enterPassword(row.get(3));
@@ -85,14 +105,12 @@ public class WebTest {
 		loginPage.enterPassword(row.get(3));
 		loginPage.submitUserDetails();
 		assertEquals("Login Successful", "**Successful Login**", loginPage.getSuccessText());
-		
-		if (loginPage.getSuccessText().equals("**Successful Login**")){
-		test.log(Status.PASS, "Test Passed for Username: "+ row.get(2));
-		}
-		else test.log(Status.FAIL,"Test failed for Username: " + row.get(2));
-	
-		
-		
+
+		if (loginPage.getSuccessText().equals("**Successful Login**")) {
+			test.log(Status.PASS, "Test Passed for Username: " + row.get(2));
+		} else
+			test.log(Status.FAIL, "Test failed for Username: " + row.get(2));
+
 		try {
 			test.addScreenCaptureFromPath(ScreenShot.take(webDriver, "photo"));
 		} catch (IOException e) {
