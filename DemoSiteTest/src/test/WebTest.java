@@ -1,8 +1,10 @@
 package test;
 
 import static org.junit.Assert.*;
+import utils.SpreadSheetReader;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 
@@ -36,6 +38,7 @@ public class WebTest {
 
 	@BeforeClass
 	public static void BeforeClass() {
+
 	}
 
 	@Before
@@ -59,25 +62,37 @@ public class WebTest {
 
 	@Test
 	public void LoginTest() {
+		String User;
+		String pass;
+		SpreadSheetReader ssr = new SpreadSheetReader("Book1.xlsx");
+		List<String> row = ssr.readRow(1, "Sheet1");
+		System.out.println("--Read Input: ");
+		for (String cell : row) {
+			System.out.println(cell);
+
+		}
+		System.out.println("--End of Read input--");
 
 		System.out.println("Test");
+
 		webDriver.navigate().to("http://www.TheDemoSite.co.uk");
 		navBar.goToAddUserPage();
-		test.log(Status.PASS, "TEst 1");
-		signUpPage.enterUsername("Test");
-		signUpPage.enterPassword("Password");
+		signUpPage.enterUsername(row.get(2));
+		signUpPage.enterPassword(row.get(3));
 		signUpPage.saveUser();
-		test.log(Status.PASS, "TEst 2");
 		navBar.goToLoginPage();
-		loginPage.enterUsername("Test");
-		loginPage.enterPassword("Password");
+		loginPage.enterUsername(row.get(2));
+		loginPage.enterPassword(row.get(3));
 		loginPage.submitUserDetails();
-		assertEquals("**Successful Login**", loginPage.getSuccessText());
+		assertEquals("Login Successful", "**Successful Login**", loginPage.getSuccessText());
+		
+		
 		try {
-			test.addScreenCaptureFromPath(ScreenShot.take(webDriver,"photo"));
+			test.addScreenCaptureFromPath(ScreenShot.take(webDriver, "photo"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+
 		// test.log(Status.INFO,"Info level");
 
 		/*
@@ -96,14 +111,13 @@ public class WebTest {
 
 	}
 
-	@Test
-	public void FailTest() {
-		test.log(Status.PASS, "TEst 3");
-		// test.log(Status.WARNING, "Failure");
-	}
+	/*
+	 * @Test public void FailTest() { test.log(Status.PASS, "TEst 3"); //
+	 * test.log(Status.WARNING, "Failure"); }
+	 */
 
 	@After
-	public void After() {	
+	public void After() {
 		report.flush();
 		webDriver.quit();
 		System.out.println("After");
@@ -111,7 +125,7 @@ public class WebTest {
 
 	@AfterClass
 	public static void AfterClass() {
-	
+
 	}
 
 }
