@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 import utils.SpreadSheetReader;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
@@ -11,9 +12,11 @@ import java.util.function.Function;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.AfterClass;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.FluentWait;
@@ -30,37 +33,41 @@ import org.openqa.selenium.*;
 public class WebTest {
 
 	private WebDriver webDriver;
+	private WebDriver webDriver2;
 	private SignUpPage signUpPage;
 	private LoginPage loginPage;
 	private NavBar navBar;
 	private DraggingPage dragTest;
+	private SortingPage sortingPage;
 	private static ExtentReports report;
-	private ExtentTest test;
-	private String reportFilePath = "TEST.html";
+	private static ExtentTest test;
+	private static String reportFilePath = "TEST.html";
 	private WebElement successText;
 
 	@BeforeClass
 	public static void BeforeClass() {
-
-	}
-
-	@Before
-	public void Before() {
 		report = new ExtentReports();
 		ExtentHtmlReporter extentHtmlReporter = new ExtentHtmlReporter(reportFilePath);
 		extentHtmlReporter.config().setReportName("ReportName");
 		extentHtmlReporter.config().setDocumentTitle("DocumentTitle");
 		report.attachReporter(extentHtmlReporter);
 		test = report.createTest("TestName");
+	}
+
+	@Before
+	public void Before() {
+
 
 		System.out.println("Before");
 		ChromeOptions options = new ChromeOptions();
 		options.addArguments("--start-maximized");
+		//webDriver2 = new FirefoxDriver();
 		webDriver = new ChromeDriver(options);
 		signUpPage = PageFactory.initElements(webDriver, SignUpPage.class);
 		loginPage = PageFactory.initElements(webDriver, LoginPage.class);
 		navBar = PageFactory.initElements(webDriver, NavBar.class);
 		dragTest = PageFactory.initElements(webDriver, DraggingPage.class);
+		sortingPage = PageFactory.initElements(webDriver, SortingPage.class);
 
 	}
 
@@ -80,6 +87,23 @@ public class WebTest {
 		} else
 			test.log(Status.FAIL, "Box Not Dropped!");
 	}
+	
+	@Test
+	public void sortTest() {
+		Actions builder = new Actions(webDriver);
+		webDriver.navigate().to("http://demoqa.com/sortable/");	
+		sortingPage.AddEls();
+		sortingPage.getTab().click();
+		sortingPage.moveBoxes(sortingPage.getBox(4), sortingPage.getBox(11), builder);
+		test.log(Status.PASS, "Sort Test didnt break");
+		
+		try {
+			test.addScreenCaptureFromPath(ScreenShot.take(webDriver, "photo"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
 
 	@Test
 	public void LoginTest() {
@@ -117,7 +141,7 @@ public class WebTest {
 			e.printStackTrace();
 		}
 
-		// test.log(Status.INFO,"Info level");
+		 test.log(Status.INFO,"Info level");
 
 		/*
 		 * Wait<WebDriver> wait = new FluentWait<WebDriver>(webDriver)
@@ -135,10 +159,10 @@ public class WebTest {
 
 	}
 
-	/*
-	 * @Test public void FailTest() { test.log(Status.PASS, "TEst 3"); //
-	 * test.log(Status.WARNING, "Failure"); }
-	 */
+
+	  @Test public void FailTest() { test.log(Status.PASS, "TEst 3"); //
+	  test.log(Status.WARNING, "Warning Message Test"); }
+	 
 
 	@After
 	public void After() {
